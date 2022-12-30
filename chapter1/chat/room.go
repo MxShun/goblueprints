@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gorilla/websocket"
+	"github.com/gorilla/websocket" // Gorilla は2022年末をもって public archived となる
 	"github.com/matryer/goblueprints/chapter1/trace"
 )
 
@@ -14,12 +14,14 @@ type room struct {
 	// that should be forwarded to the other clients.
 	forward chan []byte
 
+	// Go の map はアンスレッドセーフなので、clients に対する追加と削除に join と leave チャンネルを利用する。
 	// join is a channel for clients wishing to join the room.
 	join chan *client
 
 	// leave is a channel for clients wishing to leave the room.
 	leave chan *client
 
+	// Slice を利用した場合、参加と退出が繰り返されると無駄な要素が増えるため map を利用する。
 	// clients holds all current clients in this room.
 	clients map[*client]bool
 
@@ -42,6 +44,7 @@ func newRoom() *room {
 
 func (r *room) run() {
 	for {
+		// room の join leave forward 3 つのチャネルを監視する
 		select {
 		case client := <-r.join:
 			// joining
@@ -70,6 +73,7 @@ const (
 
 var upgrader = &websocket.Upgrader{ReadBufferSize: socketBufferSize, WriteBufferSize: socketBufferSize}
 
+// 画面初回描画時に実行される。
 func (r *room) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	socket, err := upgrader.Upgrade(w, req, nil)
 	if err != nil {

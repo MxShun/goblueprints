@@ -20,6 +20,8 @@ type templateHandler struct {
 }
 
 // ServeHTTP handles the HTTP request.
+// メソッド呼出するときに sync.Once の値は常に同じものを使う必要があるので、
+// このメソッドのレシーバはポインタである必要がある。
 func (t *templateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	t.once.Do(func() {
 		t.templ = template.Must(template.ParseFiles(filepath.Join("templates", t.filename)))
@@ -35,6 +37,7 @@ func main() {
 	r.tracer = trace.New(os.Stdout)
 
 	http.Handle("/", &templateHandler{filename: "chat.html"})
+	// 画面初期描画時に chat.js により実行される。
 	http.Handle("/room", r)
 
 	// get the room going

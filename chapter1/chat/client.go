@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/gorilla/websocket"
+	"github.com/gorilla/websocket" // Gorilla は2022年末をもって public archived となる
 )
 
 // client represents a single chatting user.

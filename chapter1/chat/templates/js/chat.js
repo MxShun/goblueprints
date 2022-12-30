@@ -21,7 +21,7 @@
   if (!window["WebSocket"]) {
     alert("Error: Your browser does not support web sockets.")
   } else {
-    socket = new WebSocket("ws://{{.Host}}/room");
+    socket = new WebSocket("ws://{{.Host}}/room"); // Template.Execute メソッド引数 Request の .Host の値が文字列保管される。
     socket.onclose = function() {
       alert("Connection has been closed.");
     }
