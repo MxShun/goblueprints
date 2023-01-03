@@ -9,6 +9,8 @@ import (
 	"github.com/stretchr/objx"
 )
 
+// Handler をラップした Decorator
+// 多重継承が表現できないので利用側で都度 Decorate しているものを指定する必要がある
 type authHandler struct {
 	next http.Handler
 }
@@ -36,6 +38,8 @@ func MustAuth(handler http.Handler) http.Handler {
 }
 
 // loginHandler handles the third-party login process.
+// パスの形式：/auth/{action}/{provider}
+// 内部状態を保持しないため関数ハンドラとしている
 func loginHandler(w http.ResponseWriter, r *http.Request) {
 	segs := strings.Split(r.URL.Path, "/")
 	action := segs[2]
