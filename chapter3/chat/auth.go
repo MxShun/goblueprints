@@ -16,7 +16,7 @@ import gomniauthcommon "github.com/stretchr/gomniauth/common"
 
 type ChatUser interface {
 	UniqueID() string
-	AvatarURL() string
+	AvatarURL() string // gomniauth/common/User インタフェースで定義されている
 }
 type chatUser struct {
 	gomniauthcommon.User
@@ -32,7 +32,7 @@ type authHandler struct {
 }
 
 func (h *authHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-
+	// ↓ if _, err := r.Cookie("auth"); err == http.ErrNoCookie {... 空白で上書く場合も考慮
 	if cookie, err := r.Cookie("auth"); err == http.ErrNoCookie || cookie.Value == "" {
 		// not authenticated
 		w.Header().Set("Location", "/login")

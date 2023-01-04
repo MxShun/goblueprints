@@ -10,6 +10,8 @@ import (
 // uploaderHandler expects two fields to be posted, userid and avatarFile.
 func uploaderHandler(w http.ResponseWriter, req *http.Request) {
 	userID := req.FormValue("userid")
+	// file: io.Reader 型であると共に multipart.File を実装している。
+	// header: multipart.FileHeader でファイルに関するメタデータを持っている
 	file, header, err := req.FormFile("avatarFile")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
