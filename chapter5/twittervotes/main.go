@@ -81,7 +81,7 @@ func main() {
 			Secret: ts.ConsumerSecret,
 		},
 	}
-	twitterStopChan := make(chan struct{}, 1)
+	twitterStopChan := make(chan struct{}, 1) // struct{} はサイズ o で一番エコ
 	publisherStopChan := make(chan struct{}, 1)
 	stop := false
 	signalChan := make(chan os.Signal, 1)
