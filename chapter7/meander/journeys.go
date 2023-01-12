@@ -11,6 +11,7 @@ type j struct {
 }
 
 // Public gets a public view of this Journey.
+// Journeys の内部構造が見えないようにする
 func (j j) Public() interface{} {
 	return map[string]interface{}{
 		"name":    j.Name,
@@ -19,6 +20,7 @@ func (j j) Public() interface{} {
 }
 
 // Journeys represents the pre-set journeys data.
+// https://developers.google.com/maps/documentation/places/web-service/supported_types
 var Journeys = []interface{}{
 	j{Name: "a romantic day", PlaceTypes: []string{"park", "bar", "movie_theatre", "restaurant", "florist", "taxi_stand"}},
 	j{Name: "a shopping spree", PlaceTypes: []string{"department_store", "cafe", "clothing_store", "jewelry_store", "shoe_store"}},

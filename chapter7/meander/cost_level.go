@@ -6,11 +6,13 @@ import (
 )
 
 // Cost represents a cost level.
+// 表現しようとしている列挙が数種類しかないので int8 を基底型としている
 type Cost int8
 
 // Cost enumerator represents various levels of Cost.
+// 列挙型 Cost を表現
 const (
-	_ Cost = iota
+	_ Cost = iota // iota は const に連番の整数を割り当てる // 0 はあえて無視している
 	Cost1
 	Cost2
 	Cost3
@@ -26,6 +28,7 @@ var costStrings = map[string]Cost{
 	"$$$$$": Cost5,
 }
 
+// String Java で言う toString だーね https://pkg.go.dev/fmt#Stringer
 func (l Cost) String() string {
 	for s, v := range costStrings {
 		if l == v {

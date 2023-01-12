@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-	"runtime"
 	"strconv"
 	"strings"
 
@@ -12,7 +11,8 @@ import (
 )
 
 func main() {
-	runtime.GOMAXPROCS(runtime.NumCPU())
+	// go1.4 まではデフォルトが 1 のため必要だったが、go1.5 からは不要。
+	// runtime.GOMAXPROCS(runtime.NumCPU())
 	meander.APIKey = "YOUR API KEY HERE"
 	http.HandleFunc("/journeys", cors(func(w http.ResponseWriter, r *http.Request) {
 		respond(w, r, meander.Journeys)

@@ -48,7 +48,7 @@ type Query struct {
 
 func (q *Query) find(types string) (*googleResponse, error) {
 	u := "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
-	vals := make(url.Values)
+	vals := make(url.Values) // url.Values 型の実態は map[string][]string なので new ではなく make を使って生成する
 	vals.Set("location", fmt.Sprintf("%g,%g", q.Lat, q.Lng))
 	vals.Set("radius", fmt.Sprintf("%d", q.Radius))
 	vals.Set("types", types)
