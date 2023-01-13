@@ -70,7 +70,7 @@ func main() {
 	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
 	for {
 		select {
-		case <-time.After(*interval):
+		case <-time.After(*interval): // time.After は指定された時間が経過するとチャネルにシグナルを送信する
 			check(m, col)
 		case <-signalChan:
 			// stop
